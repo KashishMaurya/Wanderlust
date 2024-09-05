@@ -12,7 +12,7 @@ module.exports.isLoggedIn = (req, res, next) => {
   } else {
     next();
   }
-};
+};   
 
 module.exports.redirectUrl = (req, res, next) => {
   if (req.session.redirectUrl) {

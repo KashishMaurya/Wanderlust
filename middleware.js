@@ -4,6 +4,8 @@ const { reviewSchema } = require("./schema.js");
 const Listing = require("./models/listing");
 const Review = require("./models/reviews");
 
+
+//method to check user is loged in or not
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.session.redirectUrl = req.originalUrl;
@@ -14,6 +16,7 @@ module.exports.isLoggedIn = (req, res, next) => {
   }
 };   
 
+//to save redirect url
 module.exports.redirectUrl = (req, res, next) => {
   if (req.session.redirectUrl) {
     res.locals.redirectUrl = req.session.redirectUrl;
@@ -21,6 +24,7 @@ module.exports.redirectUrl = (req, res, next) => {
   next();
 };
 
+//listing schema validation
 module.exports.valListing = (req, res, next) => {
   let { error } = listingSchema.validate(req.body);
   if (error) {
@@ -30,6 +34,7 @@ module.exports.valListing = (req, res, next) => {
   }
 };
 
+//listing review schema
 module.exports.valReview = (req, res, next) => {
   let { error } = reviewSchema.validate(req.body);
   if (error) {
@@ -40,6 +45,8 @@ module.exports.valReview = (req, res, next) => {
   }
 };
 
+// if the listing owner is not equals to current owner
+//don't provide permission for editing...
 module.exports.isOwner = async (req, res, next) => {
   let { id } = req.params;
   let listing = await Listing.findById(id);
@@ -50,6 +57,7 @@ module.exports.isOwner = async (req, res, next) => {
   next();
 };
 
+//review to be deleted by author only
 module.exports.isReviewAuthor = async (req, res, next) => {
   let { id, reviewId } = req.params;
   let listing = await Review.findById(reviewId);

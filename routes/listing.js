@@ -1,3 +1,5 @@
+// all listing related route
+
 const express = require("express");
 const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
@@ -10,17 +12,18 @@ const {
   createListing,
   getListing,
 } = require("../controller/listing");
-const multer = require("multer");
-const { storage } = require("../cloudConfig.js");
+const multer = require("multer");  //m/w for handling multi-part from data
+const { storage } = require("../cloudConfig.js");   //cloud storage
 const upload = multer({ storage });
 
 //New Listing Route
 router
   .route("/new")
   .get(isLoggedIn, (req, res) => {
-    res.render("listings/new");
+    res.render("listings/new"); //Index Route
   })
   .post(
+    //create route
     isLoggedIn,
     upload.single("listing[image]"),
     valListing,

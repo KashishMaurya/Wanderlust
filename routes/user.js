@@ -1,3 +1,5 @@
+// sign-in + login user route
+
 const express = require("express");
 const wrapAsync = require("../utils/wrapAsync");
 const router = express.Router();
@@ -27,8 +29,8 @@ router
   .post(
     redirectUrl,
     passport.authenticate("local", {
-      failureRedirect: "/login",
-      failureFlash: true,
+      failureRedirect: "/login", //if authentication fail redirect
+      failureFlash: true, //send flash msge
     }),
     loginController
   );

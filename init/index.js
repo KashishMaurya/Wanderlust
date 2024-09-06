@@ -1,3 +1,5 @@
+// connect db and initialise it
+
 const mongoose = require("mongoose");
 
 let initData = require("./data.js");

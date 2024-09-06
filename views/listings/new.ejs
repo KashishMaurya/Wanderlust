@@ -1,4 +1,7 @@
+<!-- Create new listing -->
+
 <% layout("layouts/boilerplate") %>
+
 <div class="row">
   <div class="col-8 offset-2">
     <h3>Create new listing</h3>
@@ -6,10 +9,14 @@
     <form
       method="post"
       action="/listings/new"
-      enctype="multipart/form-data"
       novalidate
       class="needs-validation"
+      enctype="multipart/form-data"
     >
+    <!-- enctype="multipart/form-data" :- When you make a POST request, you have to encode the data that forms the body of the request in some way.
+       It is specifically used when file uploading is required in HTML form. 
+       It sends the form data to server in multiple parts because of large size of file. -->
+
       <div class="mb-3">
         <label for="title" class="form-label">Title</label>
         <input
@@ -21,6 +28,7 @@
         />
         <div class="valid-feedback">Looks Good!</div>
       </div>
+
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
         <textarea
@@ -32,11 +40,14 @@
         ></textarea>
         <div class="invalid-feedback">Please enter a description</div>
       </div>
+
       <div class="mb-3">
         <label for="image" class="form-label">Upload Image</label>
         <input class="form-control" name="listing[image]" type="file" />
       </div>
+
       <div class="row">
+
         <div class="mb-3 col-md-4">
           <label for="price" class="form-label">Price</label>
           <input
@@ -48,6 +59,7 @@
           />
           <div class="invalid-feedback">Enter a valid Price</div>
         </div>
+
         <div class="mb-3 col-md-8">
           <label for="country" class="form-label">Country</label>
           <input
@@ -59,7 +71,9 @@
           />
           <div class="invalid-feedback">Please enter a valid country name</div>
         </div>
+
       </div>
+
       <div class="mb-3">
         <label for="location" class="form-label">Location</label>
         <input
@@ -71,6 +85,7 @@
         />
         <div class="invalid-feedback">Please enter a valid location</div>
       </div>
+
       <br />
       <button class="btn btn-dark add-btn">Submit</button>
     </form>

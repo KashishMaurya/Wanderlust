@@ -1,3 +1,5 @@
+//includes listing schema
+
 const mongoose = require("mongoose");
 const Review = require("./reviews.js");
 const User = require("./user.js");
@@ -41,8 +43,8 @@ const listingSchema = Schema({
   },
   geometry: {
     type: {
-      type: String,
-      enum: ["Point"],
+      type: String, // Don't do `{ location: { type: String } }`
+      enum: ["Point"], // 'location.type' must be 'Point'
       required: true,
     },
     coordinates: {
@@ -52,10 +54,12 @@ const listingSchema = Schema({
   },
 });
 
+//Creating module
 const Listing = mongoose.model("Listing", listingSchema);
 
 listingSchema.post("findOneAndDelete", async (listing) => {
   Review.deleteMany({ _id: { $in: listing.reviews } });
 });
 
+//and exporting this model to app.js with
 module.exports = Listing;

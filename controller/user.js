@@ -1,5 +1,8 @@
+// user controls
+
 const User = require("../models/user");
 
+// new user sign-in
 module.exports.signupController = async (req, res, next) => {
   try {
     const { email, username, password } = req.body;
@@ -19,12 +22,14 @@ module.exports.signupController = async (req, res, next) => {
   }
 };
 
+// login user
 module.exports.loginController = (req, res) => {
   req.flash("success", "Welcome back to Wanderlust!");
   let redirect = res.locals.redirectUrl || "/listings";
   res.redirect(redirect);
 };
 
+// logout user
 module.exports.logoutController = (req, res, next) => {
   req.logout((err) => {
     if (err) {

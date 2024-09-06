@@ -1,8 +1,9 @@
-// Need to add comments
-
+// don't upload .env file in production phase
 if (process.env.NODE_ENV != "production") {
   require("dotenv").config();
 }
+
+//basic database setup
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -24,7 +25,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
 const mongoose = require("mongoose");
-const atlasDB = process.env.ATLASDB_URL;
+const atlasDB = process.env.ATLASDB_URL;    //MOGODB ATLUS Server
 const listingsRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
@@ -34,13 +35,14 @@ const store = MongoStore.create({
   crypto: {
     secret: process.env.SECRET,
   },
-  touchAfter: 24 * 3600,
+  touchAfter: 24 * 3600,   //1 day
 });
 
 store.on("error", () => {
   console.log("Error in Mongo Session Store");
 });
 
+//cookies
 const sessionOptions = {
   store,
   secret: process.env.SECRET,
@@ -55,17 +57,18 @@ const sessionOptions = {
 
 const port = 3000;
 
-app.listen(3000, () => {});
+app.listen(port, () => {});
 
 app.use(session(sessionOptions));
 app.use(flash());
 
+//passport uses sessions 
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStratergy(User.authenticate()));
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(User.serializeUser());   //store user info in session
+passport.deserializeUser(User.deserializeUser());    //delete user info after session end
 
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");

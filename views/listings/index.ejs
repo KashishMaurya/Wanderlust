@@ -1,65 +1,87 @@
+<!--  -->
+
 <% layout("layouts/boilerplate") %>
+
 <link rel="stylesheet" href="/css/index.css" />
+
 <div class="mt-2 d-flex justify-content-between" id="filteration">
   <div class="d-flex justify-content-start filter-container col-10">
+    
     <div class="filter text-center">
       <i class="fa-solid fa-mountain-sun"></i>
       <p>Mountains</p>
     </div>
+    
     <div class="filter text-center">
       <i class="fa-regular fa-snowflake"></i>
       <p>Arctic</p>
     </div>
+
     <div class="filter text-center">
       <i class="fa-solid fa-campground"></i>
       <p>Camping</p>
     </div>
+
     <div class="filter text-center">
       <i class="fa-solid fa-dice"></i>
       <p>Play</p>
     </div>
+
     <div class="filter text-center">
       <i class="fa-solid fa-fire"></i>
       <p>Trending</p>
     </div>
+
     <div class="filter text-center">
       <i class="fa-solid fa-umbrella-beach"></i>
       <p>Beach</p>
     </div>
+
     <div class="filter text-center">
       <i class="fa-solid fa-person-shelter"></i>
       <p>Rooms</p>
     </div>
+
     <div class="filter text-center">
       <i class="fa-brands fa-fort-awesome"></i>
       <p>Castles</p>
     </div>
+
     <div class="filter text-center">
       <i class="fa-solid fa-person-swimming"></i>
       <p>Amazing Pools</p>
     </div>
+
     <div class="filter text-center">
       <i class="fa-solid fa-city"></i>
       <p>Iconic Cities</p>
     </div>
+
     <div class="filter text-center">
       <i class="fa-solid fa-tractor"></i>
       <p>Farm</p>
     </div>
+
     <div class="filter text-center">
       <i class="fa-solid fa-wine-glass"></i>
       <p>Vineyards</p>
     </div>
+
     <div class="filter text-center">
       <i class="fa-solid fa-key"></i>
       <p>New</p>
     </div>
+
     <div class="filter text-center">
       <i class="fa-solid fa-dice"></i>
       <p>Play</p>
     </div>
+
   </div>
+
   &nbsp;&nbsp;&nbsp;
+
+  <!-- tax switch toggler -->
   <div class="form-check form-switch switch col-2 mt-3">
     <input
       class="form-check-input"
@@ -72,8 +94,11 @@
       &nbsp; &nbsp; After Taxes</label
     >
   </div>
+
 </div>
 
+
+<!-- listings div -->
 <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
   <% for (let listing of allListings){ %>
   <div class="col mb-4">
@@ -101,6 +126,8 @@
   <% } %>
 </div>
 
+
+<!-- tax toggler working -->
 <script>
   const taxSwitch = document.getElementById("flexSwitchCheckChecked");
   taxSwitch.addEventListener("click", () => {

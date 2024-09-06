@@ -3,6 +3,7 @@ const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
+// destroy listing
 module.exports.deleteListing = async (req, res) => {
   let { id } = req.params;
   let deleteListing = await Listing.findByIdAndDelete(id);
@@ -10,6 +11,7 @@ module.exports.deleteListing = async (req, res) => {
   res.redirect("/listings");
 };
 
+// Edit listing
 module.exports.getEditListing = async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById({ _id: id });
@@ -23,6 +25,7 @@ module.exports.getEditListing = async (req, res) => {
   res.render("listings/edit", { listing, replacedUrl });
 };
 
+// Edit lisiting
 module.exports.editListing = async (req, res) => {
   let { id } = req.params;
   let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
@@ -69,6 +72,7 @@ module.exports.createListing = async (req, res, next) => {
   res.redirect("/listings");
 };
 
+// find listing
 module.exports.getListing = async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById({ _id: id })

@@ -1,7 +1,9 @@
+// review controls
 
 const Review = require("../models/reviews.js");
 const Listing = require("../models/listing.js");
 
+// create review
 module.exports.saveReviewController = async (req, res) => {
   const { id } = req.params;
   let listing = await Listing.findById(req.params.id);
@@ -16,6 +18,7 @@ module.exports.saveReviewController = async (req, res) => {
   res.redirect(`/listings/${id}`);
 };
 
+// delete review
 module.exports.deleteReviewcontroller = async (req, res) => {
   let { id, reviewId } = req.params;
 

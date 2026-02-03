@@ -31,7 +31,7 @@ module.exports.editListing = async (req, res) => {
   let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
   if (typeof req.file !== "undefined") {
     let url = req.file.path;
-    let filename = req.path.filename;
+    let filename = req.file.filename;
     listing.image = { url, filename };
     await listing.save();
   }
@@ -45,32 +45,44 @@ module.exports.getAllListings = async (req, res) => {
 };
 
 module.exports.createListing = async (req, res, next) => {
-  let url = req.file.path;
-  let filename = req.path.filename;
-  let { title, description, image, price, location, country } =
-    req.body.listing;
-  const cordinates = await geocodingClient
-    .forwardGeocode({
-      //loc(name) -> co-ord return
-      query: `${location}, ${country}`,
-      limit: 1,
-    })
-    .send();
-  let newListing = new Listing({
-    title,
-    description,
-    image,
-    price,
-    location,
-    country,
-  });
-  newListing.owner = req.user._id;
-  newListing.image = { url, filename };
-  newListing.geometry = cordinates.body.features[0].geometry;
-  const savedListing = await newListing.save();
-  req.flash("success", "Listing saved successfully");
-  res.redirect("/listings");
+  try {
+    if (!req.file) {
+      req.flash("error", "Image upload failed");
+      return res.redirect("/listings/new");
+    }
+
+    let url = req.file.path;
+    let filename = req.file.filename;
+
+    let { title, description, price, location, country } = req.body.listing;
+
+    const cordinates = await geocodingClient
+      .forwardGeocode({
+        query: `${location}, ${country}`,
+        limit: 1,
+      })
+      .send();
+
+    let newListing = new Listing({
+      title,
+      description,
+      price,
+      location,
+      country,
+      owner: req.user._id,
+      image: { url, filename },
+      geometry: cordinates.body.features[0].geometry,
+    });
+
+    await newListing.save();
+    req.flash("success", "Listing saved successfully");
+    res.redirect("/listings");
+  } catch (err) {
+    next(err);
+  }
 };
+
+
 
 // find listing
 module.exports.getListing = async (req, res) => {

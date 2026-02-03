@@ -90,6 +90,10 @@ async function main() {
   await mongoose.connect(atlasDB);
 }
 
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
+
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);

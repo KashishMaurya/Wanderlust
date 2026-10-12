@@ -1,3 +1,6 @@
+const dns = require("node:dns");
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
 // don't upload .env file in production phase
 if (process.env.NODE_ENV != "production") {
   require("dotenv").config();
@@ -25,7 +28,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
 const mongoose = require("mongoose");
-const atlasDB = process.env.ATLASDB_URL;    //MOGODB ATLUS Server
+const atlasDB = process.env.ATLASDB_URL; //MOGODB ATLUS Server
 const listingsRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
@@ -35,7 +38,7 @@ const store = MongoStore.create({
   crypto: {
     secret: process.env.SECRET,
   },
-  touchAfter: 24 * 3600,   //1 day
+  touchAfter: 24 * 3600, //1 day
 });
 
 store.on("error", () => {
@@ -63,13 +66,13 @@ app.listen(port, () => {});
 app.use(session(sessionOptions));
 app.use(flash());
 
-//passport uses sessions 
+//passport uses sessions
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStratergy(User.authenticate()));
 
-passport.serializeUser(User.serializeUser());   //store user info in session
-passport.deserializeUser(User.deserializeUser());    //delete user info after session end
+passport.serializeUser(User.serializeUser()); //store user info in session
+passport.deserializeUser(User.deserializeUser()); //delete user info after session end
 
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
@@ -106,6 +109,3 @@ app.use((err, req, res, next) => {
   let { status = 500, message = "something went wrong" } = err;
   res.status(status).render("listings/error", { message });
 });
-
-
-
